@@ -37,3 +37,4 @@ boto3==1.7.4
 
 # misc
 django-phonenumber-field
+django-rest-auth

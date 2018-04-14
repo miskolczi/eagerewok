@@ -6,14 +6,14 @@ import phonenumber_field.modelfields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('users', '0002_auto_20171227_2246'),
-    ]
+	dependencies = [
+		('users', '0002_auto_20171227_2246'),
+	]
 
-    operations = [
-        migrations.AddField(
-            model_name='user',
-            name='phone',
-            field=phonenumber_field.modelfields.PhoneNumberField(blank=True, max_length=128),
-        ),
-    ]
+	operations = [
+		migrations.AddField(
+			model_name='user',
+			name='phone',
+			field=phonenumber_field.modelfields.PhoneNumberField(blank=True, max_length=128),
+		),
+	]

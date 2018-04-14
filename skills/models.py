@@ -3,12 +3,12 @@ from django.db import models
 # Create your models here.
 class Skill(models.Model):
 	name = models.CharField(max_length=255)
-	reviewed = models.DateTimeField()
+	reviewed = models.DateTimeField(blank=True)
 	created = models.DateTimeField(auto_now_add=True)
 
 class Category(models.Model):
 	name = models.CharField(max_length=255)
-	reviewed = models.DateTimeField()
+	reviewed = models.DateTimeField(blank=True)
 	created = models.DateTimeField(auto_now_add=True)
 
 class UserSkill(models.Model):

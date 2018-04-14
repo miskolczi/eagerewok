@@ -34,25 +34,25 @@ Creating the production sever:
 
 ```
 heroku create eagerewok-prod --remote prod && \
-    heroku addons:create newrelic:wayne --app eagerewok-prod && \
-    heroku addons:create heroku-postgresql:hobby-dev --app eagerewok-prod && \
-    heroku config:set DJANGO_SECRET=`openssl rand -base64 32` \
-        DJANGO_AWS_ACCESS_KEY_ID="Add your id" \
-        DJANGO_AWS_SECRET_ACCESS_KEY="Add your key" \
-        DJANGO_AWS_STORAGE_BUCKET_NAME="eagerewok-prod" \
-        --app eagerewok-prod
+	heroku addons:create newrelic:wayne --app eagerewok-prod && \
+	heroku addons:create heroku-postgresql:hobby-dev --app eagerewok-prod && \
+	heroku config:set DJANGO_SECRET=`openssl rand -base64 32` \
+		DJANGO_AWS_ACCESS_KEY_ID="Add your id" \
+		DJANGO_AWS_SECRET_ACCESS_KEY="Add your key" \
+		DJANGO_AWS_STORAGE_BUCKET_NAME="eagerewok-prod" \
+		--app eagerewok-prod
 ```
 
 Creating the qa sever:
 
 ```
 heroku create `eagerewok-qa --remote qa && \
-    heroku addons:create newrelic:wayne && \
-    heroku addons:create heroku-postgresql:hobby-dev && \
-    heroku config:set DJANGO_SECRET=`openssl rand -base64 32` \
-        DJANGO_AWS_ACCESS_KEY_ID="Add your id" \
-        DJANGO_AWS_SECRET_ACCESS_KEY="Add your key" \
-        DJANGO_AWS_STORAGE_BUCKET_NAME="eagerewok-qa" \
+	heroku addons:create newrelic:wayne && \
+	heroku addons:create heroku-postgresql:hobby-dev && \
+	heroku config:set DJANGO_SECRET=`openssl rand -base64 32` \
+		DJANGO_AWS_ACCESS_KEY_ID="Add your id" \
+		DJANGO_AWS_SECRET_ACCESS_KEY="Add your key" \
+		DJANGO_AWS_STORAGE_BUCKET_NAME="eagerewok-qa" \
 ```
 
 Securely add your heroku credentials to travis so it can automatically deploy your changes.

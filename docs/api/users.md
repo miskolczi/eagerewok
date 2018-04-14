@@ -9,13 +9,13 @@ Supports registering, viewing, and updating user accounts.
 
 Parameters:
 
-Name       | Type   | Required | Description
+Name	   | Type   | Required | Description
 -----------|--------|----------|------------
-username   | string | Yes      | The username for the new user.
-password   | string | Yes      | The password for the new user account.
-first_name | string | No       | The user's given name.
-last_name  | string | No       | The user's family name.
-email      | string | No       | The user's email address.
+username   | string | Yes	  | The username for the new user.
+password   | string | Yes	  | The password for the new user account.
+first_name | string | No	   | The user's given name.
+last_name  | string | No	   | The user's family name.
+email	  | string | No	   | The user's email address.
 
 *Note:*
 
@@ -77,11 +77,11 @@ Content-Type application/json
 
 Parameters:
 
-Name       | Type   | Description
+Name	   | Type   | Description
 -----------|--------|---
 first_name | string | The first_name of the user object.
 last_name  | string | The last_name of the user object.
-email      | string | The user's email address.
+email	  | string | The user's email address.
 
 
 
