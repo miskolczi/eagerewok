@@ -21,10 +21,11 @@ urlpatterns = [
 	path('api/', include(router.urls)),
 
 	# retrieve token through post
-	path('api-token-auth/', views.obtain_auth_token),
+	# path('api-token-auth/', views.obtain_auth_token),
+	path('api/auth', views.obtain_auth_token),
 
 	# login page at api-auth/login
-	path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+	path('auth/', include('rest_framework.urls', namespace='rest_framework')),
 	
 	# url(r'^rest-auth/', include('rest_auth.urls')),
     # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),

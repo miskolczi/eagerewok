@@ -1,0 +1,10 @@
+<div class="col-md-6 col-md-offset-3">
+    <h3>All registered users ({{skills.count}}):</h3>
+    <ul>
+        <li *ngFor="let skill of skills.results">
+            {{skill.name}}
+<!--             - <a (click)="deleteUser(user.id)">Delete</a>
+ -->        </li>
+    </ul>
+<!--     <p><a [routerLink]="['/login']">Logout</a></p>
+ --></div>

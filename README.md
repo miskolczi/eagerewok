@@ -34,7 +34,7 @@ curl -d '{"username":"'"admin"'", "password":"password", "email":"test@test.com"
 
 Test REST login:
 ```bash
-curl -d '{"username":"'"admin"'", "password":"password"}' -H "Content-Type: application/json" -X POST http://localhost:8000/api-token-auth/login/
+curl -d '{"username":"'"admin"'", "password":"password"}' -H "Content-Type: application/json" -X POST http://localhost:8000/api/authenticate
 ```
 
 Test token:
