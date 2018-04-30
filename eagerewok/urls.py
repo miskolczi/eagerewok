@@ -21,9 +21,12 @@ urlpatterns = [
 	path('api/', include(router.urls)),
 
 	# retrieve token through post
-	# path('api-token-auth/', views.obtain_auth_token),
-	path('api/auth', views.obtain_auth_token),
+	path('api/auth/', views.obtain_auth_token),
 
+	# register via api
+    url(r'api/auth/register/', include('rest_auth.registration.urls')),
+	url(r'api/auth/', include('rest_auth.urls')),
+	
 	# login page at api-auth/login
 	path('auth/', include('rest_framework.urls', namespace='rest_framework')),
 	
@@ -32,6 +35,6 @@ urlpatterns = [
 	
 	# the 'api-root' from django rest-frameworks default router
 	# http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
-	re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False)),
+	re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api'), permanent=False)),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

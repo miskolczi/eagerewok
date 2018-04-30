@@ -1,0 +1,331 @@
+<!-- https://www.codeply.com/go/MYhdhIDmDg -->
+<div class="container">
+	<div class="row m-y-2">
+		<!-- photo & basic info -->
+		<div class="col-lg-4 pull-lg-8 text-xs-center">
+			<!-- photo -->
+			<img src="//placehold.it/150" class="m-x-auto img-fluid img-circle" alt="avatar">
+			<!-- <h6 class="m-t-2">Upload a different photo</h6>
+			<label class="custom-file">
+				<input type="file" id="file" class="custom-file-input">
+				<span class="custom-file-control">Choose file</span>
+			</label> -->
+			<!-- basic info -->
+			<div class="row">
+				<div class="col-md-6">
+					<h5>Wystri Warrick</h5>
+					<p>
+						US Army<br/>
+						CPB<br/>
+						17C<br/>
+						O2
+					</p>
+					<span><b>Email:</b>wystri@dds.mil</span>
+					<span><b>Phone:</b>202-555-1234</span>
+				</div>
+			</div>
+
+			<!-- <div class="col-md-6">
+				<h6>Recent Tags</h6>
+				<a href="" class="tag tag-default tag-pill" *ngFor="let tag of tags">{{tag.name}}</a>
+				<hr> 
+				<span class="tag tag-primary"><i class="fa fa-user"></i> 900 Followers</span>
+				<span class="tag tag-success"><i class="fa fa-cog"></i> 43 Forks</span>
+				<span class="tag tag-danger"><i class="fa fa-eye"></i> 245 Views</span>
+			</div> -->
+		</div>
+
+		<div class="col-lg-8 push-lg-4">
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+					<a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profile</a>
+				</li>
+				<li class="nav-item">
+					<a href="" data-target="#activity" data-toggle="tab" class="nav-link">Activity</a>
+				</li>
+				<li class="nav-item">
+					<a href="" data-target="#messages" data-toggle="tab" class="nav-link">Messages</a>
+				</li>
+				<li class="nav-item">
+					<a href="" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
+				</li>
+			</ul>
+			<div class="tab-content p-b-3">
+				<!-- main view -->
+				
+				<!-- le eww -->
+				<style type="text/css">
+					#profile .row{
+						margin-bottom: 20px;
+					}
+				</style>
+
+				<div class="tab-pane active" id="profile">
+
+					<!-- availability -->
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col" [attr.colspan]="availabilities.length + 1">Availability (Week Starting)</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Week Of</th>
+										<td *ngFor="let availability of availabilities">{{availability.weekof}}</td>
+										<!-- <th scope="row">Week Of</th> -->
+									</tr>
+									<tr>
+										<th scope="row">Availability</th>
+										<td *ngFor="let availability of availabilities">{{availability.availability}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Bio -->
+					<div class='row'>
+						<div class="col-md-12">
+							<h4 class="">Bio</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						</div>
+					</div>
+
+					<!-- education -->
+					<div class='row'>
+						<div class="col-md-12">
+							<h4 class="">Education</h4>
+
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Institution</th>
+										<th>Type</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let ed of educations">
+										<td >{{ed.name}}</td>
+										<td >{{ed.institution}}</td>
+										<td >{{EducationType[ed.type]}}</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+					<!-- skill -->
+					<div class='row'>
+						<div class="col-md-12">
+							<h4 class="">Skill</h4>
+
+							<table class="table">
+								<thead>
+									<tr>
+										<th class='col-md-3'>Name</th>
+										<th>Proficiency</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let skill of skills">
+										<td >{{skill.name}}</td>
+										<!-- <td >{{skill.proficiency}}</td> -->
+										<td >
+											<div class="progress">
+											<div class="progress-bar" role="progressbar" 
+												aria-valuemin="0" aria-valuemax="10"
+												[ngClass] = "getSkillProficiencyColor(skill.proficiency)"
+												[attr.aria-valuenow]="skill.proficiency"
+												[style.width.%]="skill.proficiency * 10"
+											> 
+												{{skill.proficiency}} / 10</div>
+											</div>											
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+				<!-- <h6>Recent Tags</h6>
+				<a href="" class="tag tag-default tag-pill" *ngFor="let tag of tags">{{tag.name}}</a>
+				<hr> -->
+
+
+					<!--/row-->
+				</div>
+
+				<!-- activities panel -->
+				<div class="tab-pane" id="activity">
+						<div class="col-md-12">
+							<h4 class="m-t-2"><span class="fa fa-clock-o ion-clock pull-xs-right"></span> Recent Activity</h4>
+							<table class="table table-hover table-striped">
+								<tbody>                                    
+									<tr>
+										<td>
+											<strong>Abby</strong> joined ACME Project Team in <strong>`Collaboration`</strong>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<strong>Gary</strong> deleted My Board1 in <strong>`Discussions`</strong>
+										</td>
+
+									</tr>
+									<tr>
+										<td>
+											<strong>Kensington</strong> deleted MyBoard3 in <strong>`Discussions`</strong>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<strong>John</strong> deleted My Board1 in <strong>`Discussions`</strong>
+										</td>
+
+									</tr>
+									<tr>
+										<td>
+											<strong>Skell</strong> deleted his post Look at Why this is.. in <strong>`Discussions`</strong>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+				</div>
+				
+				<!-- message panel -->
+				<div class="tab-pane" id="messages">
+					<h4 class="m-y-2">Recent Messages &amp; Notifications</h4>
+					<div class="alert alert-info alert-dismissable">
+						<a class="panel-close close" data-dismiss="alert">×</a> This is an <strong>.alert</strong>. Use this to show important messages to the user.
+					</div>
+					<table class="table table-hover table-striped">
+						<tbody>                                    
+							<tr>
+								<td>
+									<span class="pull-xs-right font-weight-bold">3 hrs ago</span> Here is your a link to the latest summary report from the..
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="pull-xs-right font-weight-bold">Yesterday</span> There has been a request on your account since that was..
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="pull-xs-right font-weight-bold">9/10</span> Porttitor vitae ultrices quis, dapibus id dolor. Morbi venenatis lacinia rhoncus. 
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="pull-xs-right font-weight-bold">9/4</span> Vestibulum tincidunt ullamcorper eros eget luctus. 
+								</td>
+							</tr>
+						</tbody> 
+					</table>
+				</div>
+
+				<!-- edit panel -->
+				<div class="tab-pane" id="edit">
+					<h4 class="m-y-2">Edit Profile</h4>
+					<form role="form">
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">First name</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" value="Jane">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Last name</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" value="Bishop">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Email</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="email" value="email@gmail.com">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Company</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" value="">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Website</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="url" value="">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Address</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" value="" placeholder="Street">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label"></label>
+							<div class="col-lg-6">
+								<input class="form-control" type="text" value="" placeholder="City">
+							</div>
+							<div class="col-lg-3">
+								<input class="form-control" type="text" value="" placeholder="State">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Time Zone</label>
+							<div class="col-lg-9">
+								<select id="user_time_zone" class="form-control" size="0">
+									<option value="Hawaii">(GMT-10:00) Hawaii</option>
+									<option value="Alaska">(GMT-09:00) Alaska</option>
+									<option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
+									<option value="Arizona">(GMT-07:00) Arizona</option>
+									<option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
+									<option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
+									<option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
+									<option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Username</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="text" value="janeuser">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Password</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="password" value="11111122333">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label">Confirm password</label>
+							<div class="col-lg-9">
+								<input class="form-control" type="password" value="11111122333">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-3 col-form-label form-control-label"></label>
+							<div class="col-lg-9">
+								<input type="reset" class="btn btn-secondary" value="Cancel">
+								<input type="button" class="btn btn-primary" value="Save Changes">
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<hr>

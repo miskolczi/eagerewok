@@ -27,19 +27,24 @@ docker-compose run --rm web [command]
 Create initial admin user:
 
 ```bash
-curl -d '{"username":"'"admin"'", "password":"password", "email":"test@test.com", "first_name":"test", "last_name":"user"}' \
+curl -d '{"username":"admin", "password1":"unobtanium", "password2":"unobtanium", "email":"test@test.com", "first_name":"test", "last_name":"user"}' \
 	 -H "Content-Type: application/json" \
-	 -X POST http://localhost:8000/api/users/
+	 -X POST http://localhost:8000/api/auth/register/
 ```
 
 Test REST login:
 ```bash
-curl -d '{"username":"'"admin"'", "password":"password"}' -H "Content-Type: application/json" -X POST http://localhost:8000/api/authenticate
+curl -d '{"username":"admin", "password":"unobtanium"}' -H "Content-Type: application/json" -X POST http://localhost:8000/api/auth/login/
 ```
 
 Test token:
 ```bash
-curl -H "Authorization: Token 24c95d28c3b4e30fd612fbb73b66ebb62d9e7e62" -X GET http://localhost:8000/api/users
+curl -H "Authorization: Token 75a015369025fff3912939ac3a3e20f680131a2c" -X GET http://localhost:8000/api/users
+```
+
+Test REST logout:
+```bash
+curl  -H "Authorization: Token 9e2ecab6ddb40fefef48da8039695bbb8200ec1b" -X POST http://localhost:8000/api/auth/logout/
 ```
 
 # Continuous Deployment

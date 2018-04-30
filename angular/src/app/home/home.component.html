@@ -1,12 +1,47 @@
-﻿<div class="col-md-6 col-md-offset-3">
-    <h1>Hi {{currentUser.firstName}}!</h1>
-    <p>You're logged in with Angular 2/5 and Angular CLI!!</p>
-    <h3>All registered users ({{users.count}}):</h3>
-    <ul>
-        <li *ngFor="let user of users.results">
-            {{user.username}} ({{user.first_name}} {{user.last_name}})
-            - <a (click)="deleteUser(user.id)">Delete</a>
-        </li>
-    </ul>
-    <p><a [routerLink]="['/login']">Logout</a></p>
+﻿<!-- <div class="col-md-6 col-md-offset-3">
+	<h1>Hi {{currentUser.firstName}}!</h1>
+	<p>You're logged in with Angular 2/5 and Angular CLI!!</p>
+	<h3>All registered users ({{users.count}}):</h3>
+	<ul>
+		<li *ngFor="let user of users.results">
+			{{user.username}} ({{user.first_name}} {{user.last_name}})
+			- <a (click)="deleteUser(user.id)">Delete</a>
+		</li>
+	</ul>
+	<p><a [routerLink]="['/login']">Logout</a></p>
+</div> -->
+
+<div class="container" style='margin-top: 40px'>
+	<div class="row">
+		<div class="col-sm">
+			<div class="card">
+				<img class="card-img-top" src="..." alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title">Users</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					<a href="#" class="btn btn-primary">Go somewhere</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm">
+			<div class="card">
+				<img class="card-img-top" src="..." alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title">Teams</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					<a href="#" class="btn btn-primary">Go somewhere</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm">
+			<div class="card">
+				<img class="card-img-top" src="..." alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title">Organization</h5>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					<a href="#" class="btn btn-primary">Go somewhere</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

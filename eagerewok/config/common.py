@@ -23,13 +23,19 @@ class Common(Configuration):
 		'django_filters',			# for filtering rest endpoints
 
 		'phonenumber_field',
-		# 'rest_auth',
+		'rest_auth',
 
 		# Your apps
 		'eagerewok.users',
 		'skills',
 
+		# http://django-rest-auth.readthedocs.io/en/latest/installation.html
+		'django.contrib.sites',
+		'allauth',
+		'allauth.account',
+		'rest_auth.registration',
 	)
+	SITE_ID = 1
 
 	# https://docs.djangoproject.com/en/2.0/topics/http/middleware/
 	MIDDLEWARE = (

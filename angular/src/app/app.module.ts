@@ -22,6 +22,7 @@ import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import { SkillComponent } from './skill/skill.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import { SkillComponent } from './skill/skill.component';
         LoginComponent,
         RegisterComponent,
         SkillComponent,
+        ProfileComponent,
     ],
     providers: [
         AuthGuard,
