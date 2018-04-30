@@ -25,7 +25,7 @@ export class Skill {
     name: string;
     proficiency: number;
 
-    constructor(id: number, name: string, proficiency: number) {
+    constructor(id: number, name: string, proficiency: number = 0) {
         this.id = id;
         this.name = name;
         this.proficiency = proficiency;

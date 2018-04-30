@@ -1,5 +1,5 @@
 ﻿<nav class="navbar navbar-expand-lg navbar-light bg-light"  style='margin-bottom: 20px'>
-	<a class="navbar-brand" href="#">Eager Ewok</a>
+	<a class="navbar-brand" [routerLink]="['home']">Eager Ewok</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -7,9 +7,18 @@
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item active">
-				<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+				<a class="nav-link" [routerLink]="['home']">Home<span class="sr-only">(current)</span></a>
 			</li>
 			<li class="nav-item">
+				<a class="nav-link" [routerLink]="['profile']">Profiles</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" [routerLink]="['project']">Projects</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" [routerLink]="['organization']">Organization</a>
+			</li>
+			<!-- <li class="nav-item">
 				<a class="nav-link" href="#">About</a>
 			</li>
 			<li class="nav-item dropdown">
@@ -17,12 +26,12 @@
 					Sections
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item" href="#">Users</a>
-					<a class="dropdown-item" href="#">Teams</a>
-					<!-- <div class="dropdown-divider"></div> -->
-					<a class="dropdown-item" href="#">Organization</a>
+					<a class="dropdown-item" [routerLink]="['profile']">Users</a>
+					<a class="dropdown-item" [routerLink]="['project']">Project</a>
+					<a class="dropdown-item" [routerLink]="['organization']">Organization</a>
 				</div>
-			</li>
+			</li> -->
+			<!-- <div class="dropdown-divider"></div> -->
 			<!-- <li class="nav-item">
 				<a class="nav-link disabled" href="#">Disabled</a>
 			</li> -->

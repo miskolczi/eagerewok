@@ -23,6 +23,8 @@ import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import { SkillComponent } from './skill/skill.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProjectComponent } from './project/project.component';
+import { OrganizationComponent } from './organization/organization.component';
 
 @NgModule({
     imports: [
@@ -39,6 +41,8 @@ import { ProfileComponent } from './profile/profile.component';
         RegisterComponent,
         SkillComponent,
         ProfileComponent,
+        ProjectComponent,
+        OrganizationComponent,
     ],
     providers: [
         AuthGuard,
