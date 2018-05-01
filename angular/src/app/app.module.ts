@@ -22,11 +22,34 @@ import { HomeComponent } from './home/index';
 import { LoginComponent } from './login/index';
 import { RegisterComponent } from './register/index';
 import { SkillComponent } from './skill/skill.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from './profile/entry/profile.component';
 import { ProjectComponent } from './project/project.component';
 import { OrganizationComponent } from './organization/organization.component';
 
 import { FilterPipeModule } from 'ngx-filter-pipe';
+import { IndexComponent } from './profile/index/index.component';
+
+// http://www.devglan.com/angular/angular-data-table-example
+import { CommonModule } from '@angular/common';
+
+// https://material.angular.io/guide/getting-started
+import {
+    MatInputModule, 
+    MatTableModule, 
+    MatToolbarModule, 
+    MatPaginatorModule,
+    MatSortModule,
+} from '@angular/material';
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+// https://stackoverflow.com/questions/48184079/include-fortawesome-fontawesome-to-angular-cli-project
+// import fontawesome from '@fortawesome/fontawesome'
+// import faUser from '@fortawesome/fontawesome-free-solid/faUser'
+// import faCircle from '@fortawesome/fontawesome-free-regular/faCircle'
+
+// fontawesome.library.add(faUser)
+// fontawesome.library.add(faCircle)
 
 @NgModule({
     imports: [
@@ -34,7 +57,13 @@ import { FilterPipeModule } from 'ngx-filter-pipe';
         FormsModule,
         HttpClientModule,
         FilterPipeModule,
-        routing
+        routing,
+        MatInputModule, 
+        MatTableModule, 
+        MatToolbarModule, 
+        MatPaginatorModule, 
+        MatSortModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,
@@ -46,6 +75,7 @@ import { FilterPipeModule } from 'ngx-filter-pipe';
         ProfileComponent,
         ProjectComponent,
         OrganizationComponent,
+        IndexComponent,
     ],
     providers: [
         AuthGuard,

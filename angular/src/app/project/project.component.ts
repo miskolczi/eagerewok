@@ -22,7 +22,7 @@ export class ProjectComponent implements OnInit {
 		let tags = [
 			"Optimization", "Harmonic Analysis", "Number Theory", "Complex Analysis", "Linear Algebra", "Topological Data Analysis", "ODE / PDE", "Abstract Algebra", "Graph Theory", "Discrete Math"
 		]
-		console.log(tags.length)
+		// console.log(tags.length)
 		for(var i = 0; i < tags.length; i++){
 			this.skills.push(new Skill(i, tags[i]))
 		}

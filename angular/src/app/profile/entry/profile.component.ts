@@ -9,7 +9,7 @@ import {
     SkillCategory,
     Tag, 
     UserSkill, 
-} from '../_models/index';
+} from '../../_models/index';
 
 @Component({
   selector: 'app-profile',

@@ -1,0 +1,148 @@
+import * as d3 from 'd3';
+
+// https://www.jasondavies.com/coffee-wheel/
+export class Sunburst {
+
+	i: number;
+	l: number;
+	o: number;
+	c: number;
+	s: number;
+	d: d3.ScaleLinear<number, number>;
+	u: d3.ScalePower<number, number>;
+	h = null;
+	x = null;
+
+	constructor(){}
+
+	ngOnInit() {
+		this.i = 840
+		this.l = this.i
+		this.o = this.i / 2
+		this.c = 5
+		this.s = 1e3
+
+		this.d = d3.scaleLinear().range([0, 2 * Math.PI])
+		this.u = d3.scalePow().exponent(1.3).domain([0, 1]).range([0, this.o])
+		this.h = d3.select("#vis");
+		this.h.select("img").remove();
+
+		var f = this.h.append("svg")
+			.attr("width", this.i + 2 * this.c)
+			.attr("height", this.l + 2 * this.c)
+			.append("g")
+			.attr("transform", "translate(" + [this.o + this.c, this.o + this.c] + ")");
+
+		this.h.append("p")
+			.attr("id", "intro")
+			.text("Click to zoom!");
+
+		var p = d3.partition().sort(null).value(function(t) {
+			return 5.8 - t.depth
+		})
+
+var arc = d3.arc()
+    .startAngle(function(d) { return d.x0; })
+    .endAngle(function(d) { return d.x1; })
+    .innerRadius(function(d) { return Math.sqrt(d.y0); })
+    .outerRadius(function(d) { return Math.sqrt(d.y1); });
+
+		this.x = d3.arc()
+			.startAngle(function(t) {
+				return Math.max(0, Math.min(2 * Math.PI, this.d(t.x)))
+			})
+			.endAngle(function(t) {
+				return Math.max(0, Math.min(2 * Math.PI, this.d(t.x + t.dx)))
+			})
+			.innerRadius(function(t) {
+				return Math.max(0, t.y ? this.u(t.y) : t.y)
+			})
+			.outerRadius(function(t) {
+				return Math.max(0, this.u(t.y + t.dy))
+			});
+	}
+
+	private t(n, e) {
+		return n === e ? !0 : n.children ? n.children.some(function(n) {
+			return this.t(n, e)
+		}) : !1
+	}
+
+	private n(t) {
+		if (t.children) {
+			var e = t.children.map(this.n),
+			r = d3.hsl(e[0]),
+			a = d3.hsl(e[1]);
+			return d3.hsl((r.h + a.h) / 2, 1.2 * r.s, r.l / 1.2)
+		}
+		return t.colour || "#fff"
+	}
+
+	private e(t) {
+		var n = this.r(t),
+		e = d3.interpolate(this.d.domain(), [t.x, t.x + t.dx]),
+		a = d3.interpolate(this.u.domain(), [t.y, n]),
+		i = d3.interpolate(this.u.range(), [t.y ? 20 : 0, this.o]);
+		return function(t) {
+			return function(n) {
+				return this.d.domain(e(n)), this.u.domain(a(n)).range(i(n)), this.x(t)
+			}
+		}
+	}
+
+	private r(t) {
+		return t.children ? Math.max.apply(Math, t.children.map(this.r)) : t.y + t.dy
+	}
+
+	private a(t) {
+		return .299 * t.r + .587 * t.g + .114 * t.b
+	}
+
+	public draw(){
+		d3.json("wheel.json", function(r, i) {
+			function l(n) {
+				h.transition().duration(this.s).attrTween("d", this.e(n)), m.style("visibility", function(e) {
+					return this.t(n, e) ? null : d3.select(this).style("visibility")
+				}).transition().duration(s).attrTween("text-anchor", function(t) {
+					return function() {
+						return this.d(t.x + t.dx / 2) > Math.PI ? "end" : "start"
+					}
+				}).attrTween("transform", function(t) {
+					var n = (t.name || "").split(" ").length > 1;
+					return function() {
+						var e = 180 * this.d(t.x + t.dx / 2) / Math.PI - 90,
+						r = e + (n ? -.5 : 0);
+						return "rotate(" + r + ")translate(" + (this.u(t.y) + c) + ")rotate(" + (e > 90 ? -180 : 0) + ")"
+					}
+				}).style("fill-opacity", function(e) {
+					return this.t(n, e) ? 1 : 1e-6
+				}).each("end", function(e) {
+					d3.select(this).style("visibility", this.t(n, e) ? null : "hidden")
+				})
+			}
+			var o = this.p.nodes({
+				children: i
+			}),
+			h = this.f.selectAll("path").data(o);
+			h.enter().append("path").attr("id", function(t, n) {
+				return "path-" + n
+			}).attr("d", this.x).attr("fill-rule", "evenodd").style("fill", this.n).on("click", l);
+			var m = this.f.selectAll("text").data(o),
+			y = m.enter().append("text").style("fill-opacity", 1).style("fill", function(t) {
+				return this.a(d3.rgb(this.n(t))) < 125 ? "#eee" : "#000"
+			}).attr("text-anchor", function(t) {
+				return this.d(t.x + t.dx / 2) > Math.PI ? "end" : "start"
+			}).attr("dy", ".2em").attr("transform", function(t) {
+				var n = (t.name || "").split(" ").length > 1,
+				e = 180 * this.d(t.x + t.dx / 2) / Math.PI - 90,
+				r = e + (n ? -.5 : 0);
+				return "rotate(" + r + ")translate(" + (this.u(t.y) + this.c) + ")rotate(" + (e > 90 ? -180 : 0) + ")"
+			}).on("click", l);
+			y.append("tspan").attr("x", 0).text(function(t) {
+				return t.depth ? t.name.split(" ")[0] : ""
+			}), y.append("tspan").attr("x", 0).attr("dy", "1em").text(function(t) {
+				return t.depth ? t.name.split(" ")[1] || "" : ""
+			})
+		})
+	}
+}
