@@ -26,11 +26,14 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProjectComponent } from './project/project.component';
 import { OrganizationComponent } from './organization/organization.component';
 
+import { FilterPipeModule } from 'ngx-filter-pipe';
+
 @NgModule({
     imports: [
         BrowserModule,
         FormsModule,
         HttpClientModule,
+        FilterPipeModule,
         routing
     ],
     declarations: [

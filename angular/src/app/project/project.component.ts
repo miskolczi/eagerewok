@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import {Availability, Tag, Education, EducationType, Project, Skill} from '../_models/profile';
-import {Skill} from '../_models/profile';
+import {Skill} from '../_models/index';
 
 @Component({
   selector: 'app-project',

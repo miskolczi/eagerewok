@@ -20,18 +20,6 @@ export class Tag {
     }
 }
 
-export class Skill {
-    id: number;
-    name: string;
-    proficiency: number;
-
-    constructor(id: number, name: string, proficiency: number = 0) {
-        this.id = id;
-        this.name = name;
-        this.proficiency = proficiency;
-    }
-}
-
 export enum EducationType{'military', 'civilian'}
 
 export class Education {
@@ -45,15 +33,5 @@ export class Education {
         this.name = name;
         this.institution = institution;
         this.type = type;
-    }
-}
-
-export class Project {
-    id: number;
-    name: string;
-
-    constructor(id: number, name: string) {
-        this.id = id;
-        this.name = name;
     }
 }

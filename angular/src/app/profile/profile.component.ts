@@ -1,5 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {Availability, Tag, Education, EducationType, Project, Skill} from '../_models/profile';
+import {Component, OnInit} from '@angular/core';
+import {
+    Availability, 
+    Category, 
+    Education, 
+    EducationType, 
+    Project, 
+    Skill, 
+    SkillCategory,
+    Tag, 
+    UserSkill, 
+} from '../_models/index';
 
 @Component({
   selector: 'app-profile',
@@ -10,14 +20,20 @@ import {Availability, Tag, Education, EducationType, Project, Skill} from '../_m
 export class ProfileComponent implements OnInit {
 
 	availabilities: Availability[] = [];
+    educations: Education[] = [];
+    projects: Project[] = [];
+    EducationType = EducationType;    // enum export to template
+    user_id = -1;
+    // console = console
+
+    // temp
+    userskills: UserSkill[] = [];
 	skills: Skill[] = [];
-	educations: Education[] = [];
-	projects: Project[] = [];
-	EducationType = EducationType;	// enum export to template
 
 	constructor() { }
 
     ngOnInit() {
+        this.user_id = 1;    // temp
         this.loadAllAvailabilities();
         this.loadAllEducation();
         this.loadAllProjects();
@@ -59,12 +75,21 @@ export class ProfileComponent implements OnInit {
     private loadAllSkills() {
         // this.userService.getAll().subscribe(users => { this.users = users; });
         this.skills = [
-			new Skill(1, 'html5', 4), 
-			new Skill(2, 'react', 1), 
-			new Skill(3, 'angularjs', 8), 
-			new Skill(4, 'css3', 7), 
-			new Skill(5, 'jquery', 6), 
-			new Skill(6, 'bootstrap', 7)
+            new Skill(1, 'html5'), 
+            new Skill(2, 'react'), 
+            new Skill(3, 'angularjs'), 
+            new Skill(4, 'css3'), 
+            new Skill(5, 'jquery'), 
+            new Skill(6, 'bootstrap')
+        ]
+
+        this.userskills = [
+			new UserSkill(1, this.user_id, 1, 4), 
+			new UserSkill(2, this.user_id, 2, 1), 
+			new UserSkill(3, this.user_id, 3, 8), 
+			new UserSkill(4, this.user_id, 4, 7), 
+			new UserSkill(5, this.user_id, 5, 6), 
+			new UserSkill(6, this.user_id, 6, 7)
         ]
     }
 

@@ -1,6 +1,6 @@
 <!-- https://www.codeply.com/go/MYhdhIDmDg -->
 <div class="container">
-	<div class="row m-y-2">
+	<div class="row">
 		<!-- photo & basic info -->
 		<div class="col-lg-3 pull-lg-9 text-xs-center">
 			<!-- photo -->
@@ -57,13 +57,6 @@
 			<div class="tab-content p-b-3">
 				<!-- main view -->
 				
-				<!-- le eww -->
-				<style type="text/css">
-					#profile .row{
-						margin-bottom: 20px;
-					}
-				</style>
-
 				<div class="tab-pane active" id="profile">
 
 					<!-- availability -->
@@ -136,18 +129,19 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr *ngFor="let skill of skills">
-										<td >{{skill.name}}</td>
-										<!-- <td >{{skill.proficiency}}</td> -->
+									<tr *ngFor="let userskill of userskills">
+										<!-- <td >{{skill.name}}</td> -->
+										<!-- todo convert to join at dbs level -->
+										<td >{{ (skills | filterBy : {'id': userskill.id})[0].name }}</td>
 										<td >
 											<div class="progress">
 											<div class="progress-bar" role="progressbar" 
 												aria-valuemin="0" aria-valuemax="10"
-												[ngClass] = "getSkillProficiencyColor(skill.proficiency)"
-												[attr.aria-valuenow]="skill.proficiency"
-												[style.width.%]="skill.proficiency * 10"
+												[ngClass] = "getSkillProficiencyColor(userskill.proficiency)"
+												[attr.aria-valuenow]="userskill.proficiency"
+												[style.width.%]="userskill.proficiency * 10"
 											> 
-												{{skill.proficiency}} / 10</div>
+												{{userskill.proficiency}} / 10</div>
 											</div>											
 
 										</td>

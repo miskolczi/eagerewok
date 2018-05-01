@@ -1,10 +1,65 @@
-<div class="col-md-6 col-md-offset-3">
-    <h3>All registered users ({{skills.count}}):</h3>
-    <ul>
-        <li *ngFor="let skill of skills.results">
-            {{skill.name}}
-<!--             - <a (click)="deleteUser(user.id)">Delete</a>
- -->        </li>
-    </ul>
-<!--     <p><a [routerLink]="['/login']">Logout</a></p>
- --></div>
+<div class="container">
+	<!-- title -->
+	<div class="row">
+		<div class="col-md-12">
+			<h2 style='text-transform: capitalize;'>{{skill.name}}</h2>
+		</div>
+	</div>
+
+	<div class="row">
+		<!-- members -->
+		<div class="col-md-6">
+			<h4>Skill Holders</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Members</th>
+						<th scope="col">Proficiency (SR)</th>
+						<th scope="col">Endorsements</th>
+						<th scope="col">Projects</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let sku of skillUsers">
+						<td>
+							<img 
+								[attr.src]="sku.pic"
+								style=''
+								class="skill-member" 
+								alt="avatar">
+						</td>
+						<td>{{sku.proficiency}}</td>
+						<td>{{sku.endorsements.length}}</td>
+						<td>{{sku.projects.length}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- projects & log -->
+		<div class="col-md-6">
+			<div class='row'>
+				<h4>Projects</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Name</th>
+							<th scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let sp of skillProjects">
+							<td>{{sp.name}}</td>
+							<td>{{sp.description}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- log -->
+			<div class='row'>
+				<h4>Slack</h4>
+				<img src="assets/slack.png">
+			</div>
+		</div>
+	</div>
+</div>
