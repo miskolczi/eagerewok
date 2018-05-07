@@ -1,30 +1,47 @@
 sudo: required
 language: python
 services:
-  - docker
+- docker
 python:
-  - "3.6"
+- '3.6'
 before_script:
-  - docker-compose build
+- docker-compose build
 script:
-  - docker-compose run --rm web bash -c "flake8 . &&
-                                         python wait_for_postgres.py &&
-                                         ./manage.py test"
-
-after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login --username=_ --password="$HEROKU_AUTH_TOKEN" registry.heroku.com;
-    docker tag web registry.heroku.com/eagerewok-prod/web;
-    docker push registry.heroku.com/eagerewok-prod/web;
-    fi
-  - if [ "$TRAVIS_BRANCH" == "qa" ]; then
-    docker login --username=_ --password="$HEROKU_AUTH_TOKEN" registry.heroku.com;
-    docker tag web registry.heroku.com/eagerewok-qa/web;
-    docker push registry.heroku.com/eagerewok-qa/web;
-    fi
-
+- docker-compose up"
+# - docker-compose run --rm web bash -c "flake8 . && python wait_for_postgres.py && ./manage.py test"
+# after_success:
+# - if [ "$TRAVIS_BRANCH" == "master" ]; then docker login --username=_ --password="$HEROKU_AUTH_TOKEN"
+#   registry.heroku.com; docker tag web registry.heroku.com/eagerewok-prod/web; docker
+#   push registry.heroku.com/eagerewok-prod/web; fi
+# - if [ "$TRAVIS_BRANCH" == "qa" ]; then docker login --username=_ --password="$HEROKU_AUTH_TOKEN"
+#   registry.heroku.com; docker tag web registry.heroku.com/eagerewok-qa/web; docker
+#   push registry.heroku.com/eagerewok-qa/web; fi
 notifications:
   email: false
-
 cache:
   pip: true
+deploy:
+  matrix:
+  - provider: s3
+    access_key_id: 'AKIAJPE3VGSGANLFWXVA'
+    secret_access_key: &1
+      secure: PT9/f61EB5MzNwt3MiV/OfL7JhQ4+Nl31yHbp0C41TwfVLmPtueiwbxE7UI0MJzIRRujY2aELY0LiAr5kD3XZe+jbEW5jg0LbNu2N8yOGzcSpYM8P63eQbTs2vS55W7YEytfcGmC8yNoUWVtUIVL0y/5k0q7MJFCJRB8c68khbwWc3nX5FpZCD9FB0RC944mjkldCS+7quwWhpUleBXhR3nTHPcNSnTUBBxRvj+j5tDS40uiJtgrI7jwAX8eMUEuwoBs6GCbgiqtLiQk6k1b8AZ9ln0y4OzqBoNSVDINg6aybXp8yUXH3sUGpAajRrJ6oMilQIhNfW3lYNhKeF6uORRJcLneypPjp/Nv8X0wDj93YrsL+IsL9mwebnel6zikCH9oQGawoydAGWMuAi0aS0+3MRNVYO5iJVBQMAlfw/R5T4dy+8QuhpYwHiT1Mu7E0kq8MbTdOd2OcdeZ6rKXQ875jFssir9iUN1IlHlKFJxoNQl/vozMV8F8sJf/7KFBsjLMCeKWMmzjVSxlJhP7ifODrVC+EfbjdMv80j9L7B/8IDEj84AS/18lJhhGCkmf6PUjhiTYPwW+mZB9Ei2rOf4Qx0S/O/AD+Hbf58LG5A6jL6B8MPcOsNTiWR7TNuxJt2qjGEg7tv1e3bz/gcrjwOdV+0UZsXZY4pD8oS5mwGA=
+    local_dir: dpl_cd_upload
+    skip_cleanup: true
+    on: &2
+      repo: deptofdefense/eagerewok
+    bucket: dds-eager-ewok
+  - provider: codedeploy
+    access_key_id: 'AKIAJPE3VGSGANLFWXVA'
+    secret_access_key: *1
+    bucket: dds-eager-ewok
+    key: dist.zip
+    bundle_type: zip
+    application: eagerewok
+    deployment_group: eager-ewok-deployment-group
+    on: *2
+  secret_access_key:
+    secure: hWGJpiK5nxw4zv8BE1rZ0elE8eriBOhT6KyxsdP+ZGu0mCynThZgrvMO2PMKjTRYFIRZQmpoF8Kx2ChtQ/o7y2jnjW3tBzU8yWLH0hMYqVsIatocG8uruOMyLgVYnIWYPAAmlskWu7vciyyKsbloPOSvixFYfwUOhYbWdEh7ThpHfw8yL6jiP/PRX4kG+lv+ORfVZfLofNuYZCMCrotVHsKy7Uvn+dYIYEzoaX1TpRsDhZl7yUmN6qERhLSQOSmdjWJ8d+5e7ClqOMEoM3vAk8qPM5ZdomPBDZIFBHwKGdM7MxgyZUViDaVECctlN+qd9D5NjX3tGsvqFO4YXyTLZEP2fmdyCazc87Kjd/e01NZ8wDWQ3m1Qq1CYF3rB9z1kcZ0U6+9vNmz8oehnnCuwQdH9G1ZJWYsiJmu9hqJKk0t7yogo3cVrPAY9WYmckZ/XsrakSn1O2Sxh9Gxftt0MBg1NzqplUf08Qqa8Vrpq/alSGAkoxmASejxbViHP8+loenZwoz0uIavL63kRACDOuN9Pk1jhdHDs8e7J9CrTu7FVBJGbWy7dxYDnB8ze+gIbeNHfSB0Uu2HBbm/jlPyHtHkHKpkczaz++3RFVdpDl4v5VVKJvj67RaBJBhx3AS7jgbyh8REJ1ntzj8QJgaffxlDg18PpUpmGJ4qztJfhPuY=
+before_deploy:
+- mkdir -p dpl_cd_upload
+- mv dist.zip dpl_cd_upload/dist.zip
