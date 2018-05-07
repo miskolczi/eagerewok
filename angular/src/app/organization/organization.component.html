@@ -5,7 +5,9 @@
 		<!-- indicators -->
 		<div class="col-md-3">
 
-			<div class="card bg-warning">
+			<nav class="nav flex-column">
+
+			<div class="card bg-warning nav-link active" data-target="#chart-users" data-toggle="tab" >
 				<div class="card-body">
 					<i class="fas fa-users fa-lg"></i>
 					<h5 class="card-title">Users</h5>
@@ -13,7 +15,7 @@
 				</div>
 			</div>
 
-			<div class="card bg-danger">
+			<div class="card bg-danger nav-link" data-target="#chart-projects" data-toggle="tab">
 				<div class="card-body">
 					<i class="fas fa-folder-open fa-lg"></i>
 					<h5 class="card-title">Projects</h5>
@@ -21,7 +23,7 @@
 				</div>
 			</div>
 
-			<div class="card bg-info">
+			<div class="card bg-info nav-link" data-target="#chart-skills" data-toggle="tab">
 				<div class="card-body">
 					<i class="fas fa-cogs fa-lg"></i>
 					<h5 class="card-title">Skills</h5>
@@ -29,18 +31,50 @@
 				</div>
 			</div>
 
-			<div class="card bg-info">
+			<div class="card bg-info nav-link" data-target="#chart-org" data-toggle="tab">
 				<div class="card-body">
 					<i class="fas fa-sitemap fa-lg"></i>
 					<h5 class="card-title">Organization</h5>
 					<p class="card-text">Meh...</p>
 				</div>
 			</div>
+			</nav>
+
 		</div>
 
 		<!-- Chart Area -->
 		<div class="col-md-9">
-			<svg id='sunburst'></svg>
+			<!-- <svg id='sunburst'></svg> -->
+			<div class='tab-content'>
+				<div class="tab-pane active" id="chart-users">
+					<img 
+						src="assets/circular-hierarchy-ex.png"
+						style='width: 100%;'
+						alt="sunburst-ex">
+				</div>
+
+				<div class="tab-pane" id="chart-skills">
+					<img 
+						src="assets/sunburst-ex.jpg"
+						style='width: 100%;'
+						alt="sunburst-ex">
+				</div>
+
+				<div class="tab-pane" id="chart-projects">
+					<img 
+						src="assets/gantt-ex.jpg"
+						style='width: 100%;'
+						alt="gantt-ex">
+				</div>
+
+				<div class="tab-pane" id="chart-org">
+					<img 
+						src="assets/ritalin.jpg"
+						style='width: 100%;'
+						alt="gantt-ex">
+				</div>
+				
+			</div>
 		</div>
 	</div>
 </div>

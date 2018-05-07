@@ -1,16 +1,23 @@
 version: '2'
 
 services:
+  
   postgres:
     image: postgres:9.6
     ports:
       - "5432:5432"
-  web:
+
+  django:
     restart: always
     environment:
       - DJANGO_SECRET_KEY=local
-    image: web
-    build: ./
+    image: django
+    # build: ./
+    build:
+      context: ./
+      dockerfile: ./django.Dockerfile
+      # args:
+      #   buildno: 1
     command: >
       bash -c "python wait_for_postgres.py &&
                ./manage.py migrate &&
@@ -21,6 +28,23 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+
+  node:
+    restart: always
+    image: node
+    build:
+      context: ./
+      dockerfile: ./node.Dockerfile
+    volumes:
+      - ./:/code
+    ports:
+      - "4200:4200"
+    working_dir: /code/angular/
+    command: >
+      bash -c "npm run-script dev"
+    depends_on:
+      - django
+
   documentation:
     restart: always
     build: ./
