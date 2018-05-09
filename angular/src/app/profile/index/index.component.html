@@ -6,34 +6,34 @@
 				<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 			</mat-form-field>
 
-			<mat-table #table [dataSource]="dataSource" matSort>
+			<table mat-table #table [dataSource]="dataSource" matSort>
 
 				<ng-container matColumnDef="user_id">
-					<mat-header-cell *matHeaderCellDef mat-sort-header>id</mat-header-cell>
-					<mat-cell *matCellDef="let elem">{{elem.user.id}}</mat-cell>
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>id</th>
+					<td mat-cell *matCellDef="let elem">{{elem.user.id}}</td>
 				</ng-container>
 
 				<ng-container matColumnDef="user_first_name">
-					<mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
-					<mat-cell *matCellDef="let elem">{{elem.user.first_name}}</mat-cell>
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+					<td mat-cell *matCellDef="let elem">{{elem.user.first_name}}</td>
 				</ng-container>
 
 				<ng-container matColumnDef="user_last_name">
-					<mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
-					<mat-cell *matCellDef="let elem">{{elem.user.last_name}}</mat-cell>
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+					<td mat-cell *matCellDef="let elem">{{elem.user.last_name}}</td>
 				</ng-container>
 
 				<ng-container matColumnDef="user_email">
-					<mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-					<mat-cell *matCellDef="let elem">{{elem.user.email}}</mat-cell>
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+					<td mat-cell *matCellDef="let elem">{{elem.user.email}}</td>
 				</ng-container>
 
-				<mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-				<mat-row 
+				<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+				<tr mat-row 
 					*matRowDef="let row; columns: columnsToDisplay;"
-					(click)="this.router.navigateByUrl('profile');"
-				></mat-row>
-			</mat-table>
+					(click)="this.router.navigateByUrl('user');"
+				></tr>
+			</table>
 
 			<mat-paginator #paginator
 				[pageSize]="10"

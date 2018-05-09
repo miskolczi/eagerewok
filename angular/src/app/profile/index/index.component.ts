@@ -2,7 +2,16 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Skill, User} from '../../_models/index';
 import {Router} from '@angular/router';
 
-import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+import {
+    MatTableDataSource, 
+    MatSort,
+    MatFormField,
+    MatPaginator,
+    MatTable,
+    MatInput
+} from '@angular/material';
+
+import {DataSource} from '@angular/cdk/table';
 
 @Component({
   selector: 'app-index',

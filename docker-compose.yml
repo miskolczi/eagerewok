@@ -3,7 +3,7 @@ version: '2'
 services:
   
   postgres:
-    image: postgres:9.6
+    image: postgres:latest
     ports:
       - "5432:5432"
 
@@ -47,7 +47,9 @@ services:
 
   documentation:
     restart: always
-    build: ./
+    build:
+      context: ./
+      dockerfile: ./django.Dockerfile
     command: "mkdocs serve"
     volumes:
       - ./:/code
