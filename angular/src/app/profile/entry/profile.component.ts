@@ -11,6 +11,8 @@ import {
     UserSkill, 
 } from '../../_models/index';
 
+// import {FilterPipe} from 'ngx-filter-pipe'
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -30,6 +32,7 @@ export class ProfileComponent implements OnInit {
     userskills: UserSkill[] = [];
 	skills: Skill[] = [];
 
+    // constructor(private filterPipe: FilterPipe) { }
 	constructor() { }
 
     ngOnInit() {

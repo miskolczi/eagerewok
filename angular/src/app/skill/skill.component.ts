@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Skill, User } from '../_models/index';
-import { SkillService } from '../_services/index';
+// import { SkillService } from '../_services/index';
 
 @Component({
   selector: 'app-skill',
@@ -15,7 +15,8 @@ export class SkillComponent implements OnInit {
     skillUsers = []
     skillProjects = []
 
-    constructor(private skillService: SkillService) {
+    // constructor(private skillService: SkillService) {
+    constructor() {
         // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
@@ -35,7 +36,7 @@ export class SkillComponent implements OnInit {
     }
 
     private loadAllSkills() {
-        this.skillService.getAll().subscribe(skills => { this.skills = skills; });
+        // this.skillService.getAll().subscribe(skills => { this.skills = skills; });
     }
 
     // export class User {

@@ -39,6 +39,7 @@ import {
     MatToolbarModule, 
     MatPaginatorModule,
     MatSortModule,
+    MatFormFieldModule
 } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -51,20 +52,24 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 // fontawesome.library.add(faUser)
 // fontawesome.library.add(faCircle)
 
+const modules = [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    FilterPipeModule,
+    routing,
+    MatInputModule, 
+    MatTableModule, 
+    MatToolbarModule, 
+    MatPaginatorModule, 
+    MatSortModule,
+    MatFormFieldModule,
+    BrowserAnimationsModule
+];
+
 @NgModule({
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        FilterPipeModule,
-        routing,
-        MatInputModule, 
-        MatTableModule, 
-        MatToolbarModule, 
-        MatPaginatorModule, 
-        MatSortModule,
-        BrowserAnimationsModule
-    ],
+    imports: [modules],
+    // exports: [modules],    
     declarations: [
         AppComponent,
         AlertComponent,
@@ -92,7 +97,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         // provider used to create fake backend
         fakeBackendProvider
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    // schemas: [NO_ERRORS_SCHEMA]
 })
 
 export class AppModule { }

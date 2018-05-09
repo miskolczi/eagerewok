@@ -1,14 +1,15 @@
-import { AppPage } from './app.po';
+import { browser, by, element } from 'protractor';
 
-describe('angular2-registration-login-example-cli App', () => {
-  let page: AppPage;
+describe('EagerEwok Django Backend', () => {
 
-  beforeEach(() => {
-    page = new AppPage();
-  });
+  // beforeEach(() => {});
+  // afterEach(() => {});
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+  it('users page', () => {
+  	browser.get('/users');
+  	// let tmp = element(by.css('h2')).getText();
+   //  expect(tmp).toEqual('Users');
+	var todoList = element.all(by.repeater('todo in todoList.todos'));
+    expect(todoList.count()).toEqual(3);
   });
 });
