@@ -1,25 +1,49 @@
-sudo: required
 language: python
-services:
-- docker
+sudo: required
+dist: trusty
 python:
-- '3.6'
+  - '3.6'
+services:
+  - postgresql
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+      - google-chrome-beta
+
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+install:
+  - pip install -r requirements.txt
+  - npm install -g npm
+  - npm install -g angular-cli
+  - npm install -g karma
+  - cd angular
+  - npm install
+
 before_script:
-- docker-compose build
+  # - psql -c 'create database postgres;' -U postgres
+  - npm build
 script:
-- docker-compose up"
-# - docker-compose run --rm web bash -c "flake8 . && python wait_for_postgres.py && ./manage.py test"
-# after_success:
-# - if [ "$TRAVIS_BRANCH" == "master" ]; then docker login --username=_ --password="$HEROKU_AUTH_TOKEN"
-#   registry.heroku.com; docker tag web registry.heroku.com/eagerewok-prod/web; docker
-#   push registry.heroku.com/eagerewok-prod/web; fi
-# - if [ "$TRAVIS_BRANCH" == "qa" ]; then docker login --username=_ --password="$HEROKU_AUTH_TOKEN"
-#   registry.heroku.com; docker tag web registry.heroku.com/eagerewok-qa/web; docker
-#   push registry.heroku.com/eagerewok-qa/web; fi
-notifications:
-  email: false
+  - npm run e2e
+  - cd ../
+  - python manage.py test
+  # - karma start config/karma.conf.js --single-run
 cache:
   pip: true
+  directories:
+    - "angular/node_modules"
+
+notifications:
+  email: false
+
+before_deploy:
+  - mkdir -p dpl_cd_upload
+  - mv dist.zip dpl_cd_upload/dist.zip
 deploy:
   matrix:
   - provider: s3
@@ -42,6 +66,3 @@ deploy:
     on: *2
   secret_access_key:
     secure: hWGJpiK5nxw4zv8BE1rZ0elE8eriBOhT6KyxsdP+ZGu0mCynThZgrvMO2PMKjTRYFIRZQmpoF8Kx2ChtQ/o7y2jnjW3tBzU8yWLH0hMYqVsIatocG8uruOMyLgVYnIWYPAAmlskWu7vciyyKsbloPOSvixFYfwUOhYbWdEh7ThpHfw8yL6jiP/PRX4kG+lv+ORfVZfLofNuYZCMCrotVHsKy7Uvn+dYIYEzoaX1TpRsDhZl7yUmN6qERhLSQOSmdjWJ8d+5e7ClqOMEoM3vAk8qPM5ZdomPBDZIFBHwKGdM7MxgyZUViDaVECctlN+qd9D5NjX3tGsvqFO4YXyTLZEP2fmdyCazc87Kjd/e01NZ8wDWQ3m1Qq1CYF3rB9z1kcZ0U6+9vNmz8oehnnCuwQdH9G1ZJWYsiJmu9hqJKk0t7yogo3cVrPAY9WYmckZ/XsrakSn1O2Sxh9Gxftt0MBg1NzqplUf08Qqa8Vrpq/alSGAkoxmASejxbViHP8+loenZwoz0uIavL63kRACDOuN9Pk1jhdHDs8e7J9CrTu7FVBJGbWy7dxYDnB8ze+gIbeNHfSB0Uu2HBbm/jlPyHtHkHKpkczaz++3RFVdpDl4v5VVKJvj67RaBJBhx3AS7jgbyh8REJ1ntzj8QJgaffxlDg18PpUpmGJ4qztJfhPuY=
-before_deploy:
-- mkdir -p dpl_cd_upload
-- mv dist.zip dpl_cd_upload/dist.zip

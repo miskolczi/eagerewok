@@ -2,22 +2,14 @@ version: '2'
 
 services:
   
-  postgres:
-    image: postgres:latest
-    ports:
-      - "5432:5432"
-
   django:
     restart: always
     environment:
       - DJANGO_SECRET_KEY=local
     image: django
-    # build: ./
     build:
       context: ./
       dockerfile: ./django.Dockerfile
-      # args:
-      #   buildno: 1
     command: >
       bash -c "python wait_for_postgres.py &&
                ./manage.py migrate &&
@@ -26,8 +18,8 @@ services:
       - ./:/code
     ports:
       - "8000:8000"
-    depends_on:
-      - postgres
+    # depends_on:
+    #   - postgres
 
   node:
     restart: always
@@ -45,13 +37,13 @@ services:
     depends_on:
       - django
 
-  documentation:
-    restart: always
-    build:
-      context: ./
-      dockerfile: ./django.Dockerfile
-    command: "mkdocs serve"
-    volumes:
-      - ./:/code
-    ports:
-      - "8001:8001"
+  # documentation:
+  #   restart: always
+  #   build:
+  #     context: ./
+  #     dockerfile: ./django.Dockerfile
+  #   command: "mkdocs serve"
+  #   volumes:
+  #     - ./:/code
+  #   ports:
+  #     - "8001:8001"
