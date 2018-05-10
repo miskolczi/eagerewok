@@ -5,27 +5,28 @@ python:
 - '3.6'
 services:
 - postgresql
-addons:
+# addons:
   # apt:
   #   sources:
   #   - google-chrome
   #   packages:
   #   - google-chrome-stable
-before_install:
+# before_install:
 # - export CHROME_BIN=chromium-browser
 # - export DISPLAY=:99.0
 # - sh -e /etc/init.d/xvfb start
 install:
+  - echo "hodor?"
 # - pip install -r requirements.txt
 # - npm install -g npm
 # - npm install -g @angular/cli
 # - npm install -g karma
 # - cd angular
 # - npm install
-before_script:
+# before_script:
 # - npm build
 script:
-  - echo "hodor"
+  - echo "hodor."
 # - npm run test
 # - cd ../ && python manage.py test
 cache:
@@ -36,9 +37,8 @@ notifications:
   email: false
 deploy:
 - provider: s3
-  access_key_id: AKIAJPE3VGSGANLFWXVA
-  secret_access_key: &1
-    secure: hWGJpiK5nxw4zv8BE1rZ0elE8eriBOhT6KyxsdP+ZGu0mCynThZgrvMO2PMKjTRYFIRZQmpoF8Kx2ChtQ/o7y2jnjW3tBzU8yWLH0hMYqVsIatocG8uruOMyLgVYnIWYPAAmlskWu7vciyyKsbloPOSvixFYfwUOhYbWdEh7ThpHfw8yL6jiP/PRX4kG+lv+ORfVZfLofNuYZCMCrotVHsKy7Uvn+dYIYEzoaX1TpRsDhZl7yUmN6qERhLSQOSmdjWJ8d+5e7ClqOMEoM3vAk8qPM5ZdomPBDZIFBHwKGdM7MxgyZUViDaVECctlN+qd9D5NjX3tGsvqFO4YXyTLZEP2fmdyCazc87Kjd/e01NZ8wDWQ3m1Qq1CYF3rB9z1kcZ0U6+9vNmz8oehnnCuwQdH9G1ZJWYsiJmu9hqJKk0t7yogo3cVrPAY9WYmckZ/XsrakSn1O2Sxh9Gxftt0MBg1NzqplUf08Qqa8Vrpq/alSGAkoxmASejxbViHP8+loenZwoz0uIavL63kRACDOuN9Pk1jhdHDs8e7J9CrTu7FVBJGbWy7dxYDnB8ze+gIbeNHfSB0Uu2HBbm/jlPyHtHkHKpkczaz++3RFVdpDl4v5VVKJvj67RaBJBhx3AS7jgbyh8REJ1ntzj8QJgaffxlDg18PpUpmGJ4qztJfhPuY=
+  access_key_id: $DJANGO_AWS_ACCESS_KEY_ID
+  secret_access_key: $DJANGO_AWS_SECRET_ACCESS_KEY
   local_dir: dpl_cd_upload
   skip_cleanup: true
   on: &2
@@ -48,8 +48,8 @@ deploy:
     # condition: $TRAVIS_BRANCH =~ ^staging|production$
   bucket: dds-eagerewok
 - provider: codedeploy
-  access_key_id: AKIAJPE3VGSGANLFWXVA
-  secret_access_key: *1
+  access_key_id: $DJANGO_AWS_ACCESS_KEY_ID
+  secret_access_key: $DJANGO_AWS_SECRET_ACCESS_KEY
   bucket: dds-eagerewok
   key: dist.zip
   bundle_type: zip
@@ -66,3 +66,4 @@ env:
   - secure: 'UDXPWBYCISVCaxrKlG4gamzWqOmWt4OP6gyNvIS9c3mGrGbxQgsIUAE0+3GDzZ+TdjvQJyIaztdVDoOcI48UGOdnUM9mnQCm+K7Wlb30+U4HsZmxlYwJ0CI64Bqovy+ChMnN91PGdBsRC1wQ0NHKFZBip/Mr6PIrWeKucBelenft3dKUzZWTjo1CEJRAT8gl3VXeIi9N2iMn6tbn/tbS3PvX66qqiVsop2gtbAavR4/C58rtz62QJzeH6FyzzddF6YqI7piMeDciw+MuPWK5iV5HIzsGPy2yhZaTQxkcIOHkmU+FFLXJ7mnRYBY+CA2Gi+v0erebeEZKRDQ4ph1eRMTo7VS2x6YiUU/SVlvaFTjhXXV6E3Sx7032kjSEHbqPNNTPeKc6DDsKuhIXDuZoZB4SABMSAcqDRxCVtTMyQQOYn61XaqY9ovi4EeNavcdfDDz7oDWzIokFw7Z/v/74AYCCTEoW0Sz/lQe+8h84tQzrfh/OzjlIUputGX3g/DLELv+hPH3I/Qu3gMykz9xC4id0H3Ddfn5ixjmUbMyzahcEqrxLfPjOlzqxlkiNnUY0nuIz1KXn4mWYeD9QwQtOezrijHgKxpq06SFt2p6hzCxeBoQNtO+0JmP7Njl7elTSOUZ2DsgZG86mhYatLNpq5KjMRNZw3+Ygw1npXhDpmGw='
   - secure: 'h+D07ZgHaNbikOHFa4/X7Ogw9UAGM+V+8tM31+JHM1iBYybX8WXojJ6BFgiaBObuUCdwf+Kh60FyWXc/0fozSGiV35H2IpCoeRrl9bj9o6B1Q6pMTfHp0LzfJNsSZ9KxKXGY6AHjOXrxATOw/3oPlyCJZtpaI+OcEiJqxPEV2kIDQubtwAX8MSIctUeUQkCZ23tb+k7QqnAxHnX6bBoCFsXJhvbhzLBhGs7r1paYC50/qsFgTrYtxaYY33efurjqceAHO9S+5s0nx21uA1md2Vlcz2CuFh/9HYujleTLE7PlAYtpX2Nb+QvTRI/H2nihJvAMkqXGyYuR5IqEUzoFZ6n1g6A2uTYUU7mEzwoSfYg29hVDqsURDHrIZtIJr9YhtfS2ZelEU6W8cBhFkPZM5x84ijVajXLAeClgN7C4T9bUM7r1hyeUWe8tO22qTO2A901OoipfTgneZ1U6drSm0yIdriQXkE8kVVRttmJobayBtghkwgoGpT/xv5gwTmjTjDwj8P+cP9ZcBxi/UpSop3DgDO3l7eZqoc+rrMyuYZev7I+urXtU64luKbO1csOyVk7KPd/L2B6HGklh/rJQzxO7Fnysn51/TpHzQvtIyh2hSA26zyI5Y5Plsgax+FvNb27AItT+YpzLYHrOI58HSCBL7LVkJWcQcNkpzlY8WGg='
   - secure: 'm1LFGt8IK+e8Rbzop3D/xve/Lberh2BsI/0AVpQe1eK6rz6hOkaAe+Q+RBPgUQL+MmXPg8v9EiTg9jiWPpZ98ZpWd3WAb59qQRYNPgUbleJ2cusNnZQmOzx2pnRCOANTpsbpk9Yl3akR37l+VuxYb8u39UqYp0rQNC7hKBnlt5ZaynXLghBFPGk/dxNjZjoPAMBCC1U716lcwu7wVrvUvfIWDHmb97w3R31/g/nBmb8NXXNyQhnzMx9LqB2W1U0jIoNhvYCVmRJh+hMa8Emiy4K8kUMHEozG48V6nEDnA5b535xrDK09cDIyJDj5nx1GsvnFW4WEX1TEdTZP5Fh2Nv5pDcgWfTqBU9qrG4QvOKZaVoQZ8M6pLiH4TOiuHsOY+Fz/tiDMBWlN5PQJ9KliUnvFjC4gOP97FHQBqq6Yx2V/LQ+OMcMfGuC6KFY5wWRp6asF8YDNF7YzfzUmZ9hTfpE/xJAAAOjJahXxuwkP3n2Fs7w5emi2VWbPFPZtzgfWtxT9AtVHF3Wcy1bQyBudxtreFG+fz5e/rNqHgX7bpyeeSrIZN4xjE68LCf7jpnHRc00+cFNmbuAyOuuol7SPByWfFPOGHcc/94brJkwbqYDtxCDQb3e2Q1i8McNjOC6GXijwDzxKt18AbANueA0ZNnroDXPJ/tRksMDpUVO1KjQ='
+  - secure: "Sxjoe2vIh/bNFfZObMK/MdkcUMAqk+y0Zgpk6Jl+izQbB9zg1YAm+M+SQJ4CrlFaBrFN1LbgJPZtzXz7nyuD+jTyJ4Q7XehLEdkfKCBaprKT3QAk9CLffZBA9ZdTxn6yNBGQ0NiSjmWUrqlOnBO7+PRzXp0pyH5XjiNpUCIaQobgjKw/eAhOHnO40IPUxNUn2uSlFhioDHMu8QzIoWeB8wTjRehwqHcEm3pbScj5wZZvZJtLTNTRdUczsMmReOcX8nLwDg9tYu8ZmNqAO00Tv9IUa9wi3oMth0+R8LgqXsfWul26r7etaNJiYj1W8XmudLRXytyBh66PXOM5b8epcN3tcFWnyS/PVE4xzFmDklVIBXDrrRtyNUi4o8tTz8tJxhxzpA2KXFkm0Zbg0jGov8pBIV/k/uhrwqNtvo9ou9HunMKN9AiJIvv+S0yfdYhf22D7ERmgoDznGwArzUXT8gU6gmPtmLSIIPmucYkl0iiPY7fvh9axcrzS238qGE2y4dvc8kQ1nNAzSHLyxeun3Q3xmL2N8v5pueIL1SEUmbEK/zdNNfNB5guhaQXL5yrgIX64DvE+qsfzu5sImAkJj+4rfpIlM5dYdbK0WuZXFCQOoyPrHVUBAy2KmiBo7wyZhDlcz1+7fCAqUAEX26TsCvGk97WVyePgn/mEHZQoh2c="
