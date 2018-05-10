@@ -49,8 +49,8 @@ resource "aws_s3_bucket" "eagerewok" {
 }
 
 
-resource "aws_iam_role" "eagerewok" {
-  name = "eagerewok"
+resource "aws_iam_role" "eagerewok_codedeploy" {
+  name = "eagerewok_codedeploy"
 
   assume_role_policy = <<EOF
 {
@@ -69,9 +69,55 @@ resource "aws_iam_role" "eagerewok" {
 EOF
 }
 
-resource "aws_iam_role_policy" "eagerewok" {
-  name = "eagerewok"
-  role = "${aws_iam_role.eagerewok.id}"
+# data "aws_iam_instance_profile" "eagerewok_ec2" {
+#   name = "eagerewok_ec2"
+#   role_arn = "${aws_iam_role.eagerewok_ec2.arn}"
+# }
+
+
+resource "aws_iam_role" "eagerewok_ec2" {
+  name = "eagerewok_ec2"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "eagerewok_ec2" {
+  name = "eagerewok_ec2"
+  role = "${aws_iam_role.eagerewok_codedeploy.id}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:*",
+        "codedeploy:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "eagerewok_codedeploy" {
+  name = "eagerewok_codedeploy"
+  role = "${aws_iam_role.eagerewok_codedeploy.id}"
 
   policy = <<EOF
 {
@@ -103,7 +149,7 @@ EOF
 resource "aws_codedeploy_deployment_group" "eagerewok" {
   app_name               = "${aws_codedeploy_app.eagerewok.name}"
   deployment_group_name  = "eagerewok"
-  service_role_arn       = "${aws_iam_role.eagerewok.arn}"
+  service_role_arn       = "${aws_iam_role.eagerewok_codedeploy.arn}"
   deployment_config_name = "${aws_codedeploy_deployment_config.eagerewok.id}"
   deployment_config_name = "CodeDeployDefault.AllAtOnce"
 
@@ -139,6 +185,8 @@ resource "aws_instance" "eagerewok" {
 	vpc_security_group_ids = ["${aws_security_group.eagerewok.id}"]
 	subnet_id = "${aws_subnet.eagerewok.id}"
 	key_name = "${aws_key_pair.eagerewok.id}"
+   
+  iam_instance_profile = "${aws_iam_role.eagerewok_ec2.name}"
 
 	tags {
 		Name = "eagerewok_staging"

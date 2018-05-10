@@ -2,10 +2,25 @@
 
 sudo su
 
+add-apt-repository ppa:jonathonf/python-3.6
+
 # xenial
-PKGS="ruby wget nginx postgresql"
+PKGS="ruby wget nginx postgresql python3.6 python3-pip"
 apt update
 apt install $PKGS -y
+
+# setup python 3.6
+rm /usr/bin/python3
+ln -s /usr/bin/python3.6 /usr/bin/python3
+apt purge python3-apt && apt install python3-apt
+pip3 install --upgrade pip
+
+# node
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+apt install -y nodejs
+npm install -g npm
+npm install -g @angular/cli
+npm install -g karma
 
 # jic vpc dns hostname resolution dont work
 # https://forums.aws.amazon.com/thread.jspa?threadID=104765
@@ -18,7 +33,8 @@ chmod +x ./install
 ./install auto
 
 # setup local postgres
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD '';"
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'colonelhindsight';"
+service postgresql restart
 
 # passwd for restricting nginx
 htpasswd -b -c /etc/nginx/.htpasswd admin colonelhindsight

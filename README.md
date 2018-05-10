@@ -49,12 +49,12 @@ curl  -H "Authorization: Token 9e2ecab6ddb40fefef48da8039695bbb8200ec1b" -X POST
 
 # Continuous Deployment
 
-Deployment is automated via Travis. When builds pass on the master or qa branch, Travis will deploy that branch to Heroku. Follow these steps to enable this feature.
+Deployment is automated via Travis. When builds pass on the master or qa branch, Travis will deploy that branch to Amazon EC2 via CodeDeploy & S3.
 
-Deployment is set up for Amazon EC2 using CodeDeploy and S3.
+To set up
 
-Instructions to set up instances are at:
-https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
+## References:
+CodeDeploy: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
 
 
 <!-- Initialize the production server:
