@@ -42,9 +42,11 @@ deploy:
       secure: hWGJpiK5nxw4zv8BE1rZ0elE8eriBOhT6KyxsdP+ZGu0mCynThZgrvMO2PMKjTRYFIRZQmpoF8Kx2ChtQ/o7y2jnjW3tBzU8yWLH0hMYqVsIatocG8uruOMyLgVYnIWYPAAmlskWu7vciyyKsbloPOSvixFYfwUOhYbWdEh7ThpHfw8yL6jiP/PRX4kG+lv+ORfVZfLofNuYZCMCrotVHsKy7Uvn+dYIYEzoaX1TpRsDhZl7yUmN6qERhLSQOSmdjWJ8d+5e7ClqOMEoM3vAk8qPM5ZdomPBDZIFBHwKGdM7MxgyZUViDaVECctlN+qd9D5NjX3tGsvqFO4YXyTLZEP2fmdyCazc87Kjd/e01NZ8wDWQ3m1Qq1CYF3rB9z1kcZ0U6+9vNmz8oehnnCuwQdH9G1ZJWYsiJmu9hqJKk0t7yogo3cVrPAY9WYmckZ/XsrakSn1O2Sxh9Gxftt0MBg1NzqplUf08Qqa8Vrpq/alSGAkoxmASejxbViHP8+loenZwoz0uIavL63kRACDOuN9Pk1jhdHDs8e7J9CrTu7FVBJGbWy7dxYDnB8ze+gIbeNHfSB0Uu2HBbm/jlPyHtHkHKpkczaz++3RFVdpDl4v5VVKJvj67RaBJBhx3AS7jgbyh8REJ1ntzj8QJgaffxlDg18PpUpmGJ4qztJfhPuY=
     local_dir: dpl_cd_upload
     skip_cleanup: true
-    on: &2
-      all_branches: true
-      repo: deptofdefense/eagerewok
+    # on: &2
+      # all_branches: true
+      # repo: deptofdefense/eagerewok
+      # condition: $TRAVIS_BRANCH =~ ^.$
+      # condition: $TRAVIS_BRANCH =~ ^staging|production$
     bucket: dds-eagerewok
   - provider: codedeploy
     access_key_id: AKIAJPE3VGSGANLFWXVA
@@ -54,8 +56,9 @@ deploy:
     bundle_type: zip
     application: eagerewok
     deployment_group: eagerewok
-    on: *2
+    # on: *2
 before_deploy:
+- zip -r dist *
 - mkdir -p dpl_cd_upload
 - mv dist.zip dpl_cd_upload/dist.zip
 env:

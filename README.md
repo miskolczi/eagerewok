@@ -51,7 +51,13 @@ curl  -H "Authorization: Token 9e2ecab6ddb40fefef48da8039695bbb8200ec1b" -X POST
 
 Deployment is automated via Travis. When builds pass on the master or qa branch, Travis will deploy that branch to Heroku. Follow these steps to enable this feature.
 
-Initialize the production server:
+Deployment is set up for Amazon EC2 using CodeDeploy and S3.
+
+Instructions to set up instances are at:
+https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
+
+
+<!-- Initialize the production server:
 
 ```
 heroku create eagerewok-prod --remote prod && \
@@ -93,6 +99,6 @@ Commit your changes and push to master and qa to trigger your first deploys:
 git commit -a -m "ci(travis): add Heroku credentials" && \
 git push origin master:qa && \
 git push origin master
-```
+``` -->
 
-You're now ready to continuously ship! ✨ 💅 🛳
+<!-- You're now ready to continuously ship! ✨ 💅 🛳 -->

@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /eagerewok
+  - source: scripts/codedeploy/nginx.conf
+    destination: /etc/nginx/sites-enabled/default
+  # - source: source
+  #   destination: /webapps/myApp
+hooks:
+  BeforeInstall:
+    - location: scripts/codedeploy/beforeinstall.sh
+  AfterInstall:
+    - location: scripts/codedeploy/afterinstall.sh
+    #   timeout: 180
+  ApplicationStart:
+    - location: scripts/codedeploy/applicationstart.sh
+      # timeout: 3600
+  # ValidateService:
+    # - location: Scripts/MonitorService.sh
+    #   timeout: 3600
+    #   runas: codedeployuser
