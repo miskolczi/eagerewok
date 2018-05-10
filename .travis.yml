@@ -25,6 +25,7 @@ install:
 before_script:
 # - npm build
 script:
+  - echo "hodor"
 # - npm run test
 # - cd ../ && python manage.py test
 cache:
