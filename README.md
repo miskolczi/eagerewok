@@ -56,31 +56,6 @@ Deployment is set up for Amazon EC2 using CodeDeploy and S3.
 Instructions to set up instances are at:
 https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
 
-```bash
-# bionic
-sudo apt update && sudo apt install wget nginx
-
-# rvm for ruby 2.4 because codedeploy doesnt like ruby2.5
-sudo apt-add-repository -y ppa:rael-gc/rvm
-sudo apt-get update
-# sudo apt-get install rvm libssl1.0-dev -y
-sudo apt-get install libssl1.0-dev rbenv ruby-build -y
-
-# https://github.com/rbenv/rbenv
-# git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-# cd ~/.rbenv && src/configure && make -C src
-# echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-# source ~/.bash_profile
-
-# source /etc/profile.d/rvm.sh
-# sudo rvm install 2.4
-# rvm use 2.4
-
-cd ~
-wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install
-chmod +x ./install
-sudo ./install auto
-```
 
 <!-- Initialize the production server:
 

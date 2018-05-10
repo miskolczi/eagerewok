@@ -13,6 +13,11 @@ variable "ec2_public_key" {
   type = "string"
 }
 
+variable "route53_zone_id" {
+  description = "zone id for route 53."
+  type = "string"
+}
+
 
 provider "aws" {
 	region = "us-east-1"
@@ -24,14 +29,14 @@ resource "aws_codedeploy_app" "eagerewok" {
   name = "eagerewok"
 }
 
-resource "aws_codedeploy_deployment_config" "eagerewok" {
-  deployment_config_name = "staging"
+# resource "aws_codedeploy_deployment_config" "eagerewok" {
+#   deployment_config_name = "staging"
 
-  minimum_healthy_hosts {
-    type  = "HOST_COUNT"
-    value = 0
-  }
-}
+#   minimum_healthy_hosts {
+#     type  = "HOST_COUNT"
+#     value = 0
+#   }
+# }
 
 resource "aws_s3_bucket" "eagerewok" {
   bucket = "dds-eagerewok"
@@ -100,6 +105,7 @@ resource "aws_codedeploy_deployment_group" "eagerewok" {
   deployment_group_name  = "eagerewok"
   service_role_arn       = "${aws_iam_role.eagerewok.arn}"
   deployment_config_name = "${aws_codedeploy_deployment_config.eagerewok.id}"
+  deployment_config_name = "CodeDeployDefault.AllAtOnce"
 
   ec2_tag_filter {
     key   = "Name"
@@ -127,7 +133,8 @@ resource "aws_codedeploy_deployment_group" "eagerewok" {
 
 resource "aws_instance" "eagerewok" {
 	count = 1
-	ami = "ami-7ad76705"
+  # ami = "ami-7ad76705" # us-east-1  bionic  18.04 LTS amd64 hvm:ebs-ssd
+	ami = "ami-5c66ea23" # us-east-1 xenial  16.04 LTS amd64 hvm:ebs-ssd
 	instance_type = "t2.small"
 	vpc_security_group_ids = ["${aws_security_group.eagerewok.id}"]
 	subnet_id = "${aws_subnet.eagerewok.id}"
@@ -137,11 +144,24 @@ resource "aws_instance" "eagerewok" {
 		Name = "eagerewok_staging"
 	}
 
+  provisioner "file" {
+    source      = "../scripts/terraform/ec2_init.sh"
+    destination = "/tmp/ec2_init.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/ec2_init.sh",
+      "/tmp/ec2_init.sh",
+    ]
+  }
 }
 
 resource "aws_vpc" "eagerewok" {
 	cidr_block       = "10.0.0.0/24"
-	instance_tenancy = "default"
+  instance_tenancy = "default"
+  enable_dns_hostnames = true # allows hostnames to resolve so codeagent can work 
+	enable_dns_support = true
 
 	tags {
 		Name = "eagerewok_vpc"
@@ -202,4 +222,19 @@ resource "aws_route" "internet_access" {
 	route_table_id         = "${aws_vpc.eagerewok.main_route_table_id}"
 	gateway_id             = "${aws_internet_gateway.eagerewok.id}"
 	destination_cidr_block = "0.0.0.0/0"
+}
+
+resource "aws_route53_record" "eagerewok" {
+  zone_id = "${var.route53_zone_id}"
+  name    = "eagerewok.dds.codes."
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.eagerewok.*.public_ip}"]
+  # zone_id = "${aws_route53_zone.dds.zone_id}"
+  # records = [
+    # "${aws_route53_zone.dev.name_servers.0}",
+    # "${aws_route53_zone.dev.name_servers.1}",
+    # "${aws_route53_zone.dev.name_servers.2}",
+    # "${aws_route53_zone.dev.name_servers.3}",
+  # ]
 }
