@@ -56,6 +56,7 @@ deploy:
     deployment_group: eagerewok
     on: *2
 before_deploy:
+- zip -r dist *
 - mkdir -p dpl_cd_upload
 - mv dist.zip dpl_cd_upload/dist.zip
 env:

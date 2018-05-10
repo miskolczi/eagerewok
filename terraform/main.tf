@@ -29,7 +29,7 @@ resource "aws_codedeploy_deployment_config" "eagerewok" {
 
   minimum_healthy_hosts {
     type  = "HOST_COUNT"
-    value = 1
+    value = 0
   }
 }
 
@@ -104,7 +104,7 @@ resource "aws_codedeploy_deployment_group" "eagerewok" {
   ec2_tag_filter {
     key   = "Name"
     type  = "KEY_AND_VALUE"
-    value = "eagerewok"
+    value = "eagerewok_staging"
   }
 
   # trigger_configuration {
@@ -159,7 +159,7 @@ resource "aws_internet_gateway" "eagerewok" {
 }
 
 resource "aws_security_group" "eagerewok" {
-	name = "eagerewok_kali"
+	name = "eagerewok"
 	vpc_id = "${aws_vpc.eagerewok.id}"
 
 	ingress {
