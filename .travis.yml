@@ -45,6 +45,8 @@ deploy:
     on: &2
       all_branches: true
       repo: deptofdefense/eagerewok
+      condition: $TRAVIS_BRANCH =~ ^.$
+      # condition: $TRAVIS_BRANCH =~ ^staging|production$
     bucket: dds-eagerewok
   - provider: codedeploy
     access_key_id: AKIAJPE3VGSGANLFWXVA
