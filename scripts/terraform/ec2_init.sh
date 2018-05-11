@@ -5,7 +5,7 @@ add-apt-repository ppa:deadsnakes/ppa -y
 add-apt-repository ppa:certbot/certbot -y
 
 # xenial
-PKGS="ruby wget nginx postgresql python3.6 python3-pip software-properties-common python-certbot-nginx apache2-utils"
+PKGS="ruby wget nginx postgresql python3.6 python3.6-dev python3-pip software-properties-common python-certbot-nginx apache2-utils"
 apt update
 apt install $PKGS -y
 # ln -s /usr/lib/python3/dist-packages/apt_pkg.cpython-35m-x86_64-linux-gnu.so /usr/lib/python3/dist-packages/apt_pkg.so
@@ -14,7 +14,9 @@ apt install $PKGS -y
 # rm /usr/bin/python3
 # ln -s /usr/bin/python3.6 /usr/bin/python3
 # apt purge python3-apt && apt install python3-apt
-pip3 install --upgrade pip
+alias pip3.6="python3.6 -m pip"
+pip3.6 install --upgrade pip
+pip3.6 install uwsgi
 
 # node
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
@@ -40,6 +42,8 @@ service postgresql restart
 
 # passwd for restricting nginx
 htpasswd -b -c /etc/nginx/.htpasswd admin colonelhindsight
+
+# sudo certbot --nginx -m lim@friends.dds.mil -d eagerewok.dds.codes --agree-tos
 
 # certbot
 # apt update &&
