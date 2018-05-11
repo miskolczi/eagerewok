@@ -13,6 +13,11 @@ variable "ec2_public_key" {
   type = "string"
 }
 
+variable "ec2_private_key" {
+  description = "SSH private key for web server."
+  type = "string"
+}
+
 variable "route53_zone_id" {
   description = "zone id for route 53."
   type = "string"
@@ -41,6 +46,7 @@ resource "aws_codedeploy_app" "eagerewok" {
 resource "aws_s3_bucket" "eagerewok" {
   bucket = "dds-eagerewok"
   acl = "private"
+  force_destroy = true
 
   tags {
     Name = "dds-eagerewok"
@@ -96,7 +102,7 @@ EOF
 
 resource "aws_iam_role_policy" "eagerewok_ec2" {
   name = "eagerewok_ec2"
-  role = "${aws_iam_role.eagerewok_codedeploy.id}"
+  role = "${aws_iam_role.eagerewok_ec2.id}"
 
   policy = <<EOF
 {
@@ -176,6 +182,10 @@ resource "aws_codedeploy_deployment_group" "eagerewok" {
   # }
 }
 
+resource "aws_iam_instance_profile" "eagerewok_ec2" {
+  name = "eagerewok_ec2"
+  role = "${aws_iam_role.eagerewok_ec2.name}"
+}
 
 resource "aws_instance" "eagerewok" {
 	count = 1
@@ -186,22 +196,34 @@ resource "aws_instance" "eagerewok" {
 	subnet_id = "${aws_subnet.eagerewok.id}"
 	key_name = "${aws_key_pair.eagerewok.id}"
    
-  iam_instance_profile = "${aws_iam_role.eagerewok_ec2.name}"
+  iam_instance_profile = "${aws_iam_instance_profile.eagerewok_ec2.name}"
 
 	tags {
 		Name = "eagerewok_staging"
 	}
 
   provisioner "file" {
-    source      = "../scripts/terraform/ec2_init.sh"
+    source = "../scripts/terraform/ec2_init.sh"
     destination = "/tmp/ec2_init.sh"
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = "${file("${var.ec2_private_key}")}"
+    }
   }
 
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/ec2_init.sh",
-      "/tmp/ec2_init.sh",
+      "sudo /tmp/ec2_init.sh",
     ]
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = "${file("${var.ec2_private_key}")}"
+    }
   }
 }
 

@@ -1,18 +1,19 @@
 #!/bin/bash
 
-sudo su
-
-add-apt-repository ppa:jonathonf/python-3.6
+# add-apt-repository ppa:jonathonf/python-3.6 -y
+add-apt-repository ppa:deadsnakes/ppa -y
+add-apt-repository ppa:certbot/certbot -y
 
 # xenial
-PKGS="ruby wget nginx postgresql python3.6 python3-pip"
+PKGS="ruby wget nginx postgresql python3.6 python3-pip software-properties-common python-certbot-nginx apache2-utils"
 apt update
 apt install $PKGS -y
+# ln -s /usr/lib/python3/dist-packages/apt_pkg.cpython-35m-x86_64-linux-gnu.so /usr/lib/python3/dist-packages/apt_pkg.so
 
 # setup python 3.6
-rm /usr/bin/python3
-ln -s /usr/bin/python3.6 /usr/bin/python3
-apt purge python3-apt && apt install python3-apt
+# rm /usr/bin/python3
+# ln -s /usr/bin/python3.6 /usr/bin/python3
+# apt purge python3-apt && apt install python3-apt
 pip3 install --upgrade pip
 
 # node
@@ -31,6 +32,7 @@ cd ~
 wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install
 chmod +x ./install
 ./install auto
+service codedeploy-agent start
 
 # setup local postgres
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'colonelhindsight';"
@@ -38,6 +40,10 @@ service postgresql restart
 
 # passwd for restricting nginx
 htpasswd -b -c /etc/nginx/.htpasswd admin colonelhindsight
+
+# certbot
+# apt update &&
+# apt install python-certbot-nginx -y
 
 # bionic
 # add-apt-repository ppa:brightbox/ruby-ng

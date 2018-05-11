@@ -70,7 +70,7 @@ class Common(Configuration):
 	}
 
 	# General
-	APPEND_SLASH = False
+	APPEND_SLASH = True
 	TIME_ZONE = 'UTC'
 	LANGUAGE_CODE = 'en-us'
 	# If you set this to False, Django will make some optimizations so as not
@@ -206,7 +206,9 @@ class Common(Configuration):
 			'rest_framework.permissions.IsAuthenticated',
 		],
 		'DEFAULT_AUTHENTICATION_CLASSES': (
-			'rest_framework.authentication.SessionAuthentication',
+			# 'rest_framework.authentication.SessionAuthentication',
 			'rest_framework.authentication.TokenAuthentication',
+			# 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
 		)
 	}
+	REST_SESSION_LOGIN = False

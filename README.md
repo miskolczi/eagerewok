@@ -29,12 +29,12 @@ Create initial admin user:
 ```bash
 curl -d '{"username":"admin", "password1":"unobtanium", "password2":"unobtanium", "email":"test@test.com", "first_name":"test", "last_name":"user"}' \
 	 -H "Content-Type: application/json" \
-	 -X POST http://localhost:8000/api/auth/register/
+	 -X POST http://localhost:8000/api/rest-auth/register/
 ```
 
 Test REST login:
 ```bash
-curl -d '{"username":"admin", "password":"unobtanium"}' -H "Content-Type: application/json" -X POST http://localhost:8000/api/auth/login/
+curl -d '{"username":"admin", "password":"unobtanium"}' -H "Content-Type: application/json" -X POST http://localhost:8000/api/rest-auth/login/
 ```
 
 Test token:
