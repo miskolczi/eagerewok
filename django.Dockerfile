@@ -5,13 +5,14 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# Adds our application code to the image
-COPY . code
-WORKDIR code
+VOLUME /eagerewok
+WORKDIR /eagerewok
 
 EXPOSE 8000
 
 # Migrates the database, uploads staticfiles, and runs the production server
-CMD ./manage.py migrate && \
-	./manage.py collectstatic --noinput && \
-	newrelic-admin run-program gunicorn --bind 0.0.0.0:$PORT --access-logfile - eagerewok.wsgi:application
+# CMD ./manage.py migrate && \
+# 	./manage.py collectstatic --noinput && \
+# 	newrelic-admin run-program gunicorn --bind 0.0.0.0:$PORT --access-logfile - eagerewok.wsgi:application
+
+CMD ["/bin/sh"]

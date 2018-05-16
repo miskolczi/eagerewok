@@ -13,6 +13,11 @@ variable "ec2_public_key" {
   type = "string"
 }
 
+variable "ec2_private_key" {
+  description = "SSH private key for web server."
+  type = "string"
+}
+
 variable "route53_zone_id" {
   description = "zone id for route 53."
   type = "string"
@@ -41,6 +46,7 @@ resource "aws_codedeploy_app" "eagerewok" {
 resource "aws_s3_bucket" "eagerewok" {
   bucket = "dds-eagerewok"
   acl = "private"
+  force_destroy = true
 
   tags {
     Name = "dds-eagerewok"
@@ -49,8 +55,8 @@ resource "aws_s3_bucket" "eagerewok" {
 }
 
 
-resource "aws_iam_role" "eagerewok" {
-  name = "eagerewok"
+resource "aws_iam_role" "eagerewok_codedeploy" {
+  name = "eagerewok_codedeploy"
 
   assume_role_policy = <<EOF
 {
@@ -69,9 +75,55 @@ resource "aws_iam_role" "eagerewok" {
 EOF
 }
 
-resource "aws_iam_role_policy" "eagerewok" {
-  name = "eagerewok"
-  role = "${aws_iam_role.eagerewok.id}"
+# data "aws_iam_instance_profile" "eagerewok_ec2" {
+#   name = "eagerewok_ec2"
+#   role_arn = "${aws_iam_role.eagerewok_ec2.arn}"
+# }
+
+
+resource "aws_iam_role" "eagerewok_ec2" {
+  name = "eagerewok_ec2"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "eagerewok_ec2" {
+  name = "eagerewok_ec2"
+  role = "${aws_iam_role.eagerewok_ec2.id}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:*",
+        "codedeploy:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "eagerewok_codedeploy" {
+  name = "eagerewok_codedeploy"
+  role = "${aws_iam_role.eagerewok_codedeploy.id}"
 
   policy = <<EOF
 {
@@ -103,7 +155,7 @@ EOF
 resource "aws_codedeploy_deployment_group" "eagerewok" {
   app_name               = "${aws_codedeploy_app.eagerewok.name}"
   deployment_group_name  = "eagerewok"
-  service_role_arn       = "${aws_iam_role.eagerewok.arn}"
+  service_role_arn       = "${aws_iam_role.eagerewok_codedeploy.arn}"
   deployment_config_name = "${aws_codedeploy_deployment_config.eagerewok.id}"
   deployment_config_name = "CodeDeployDefault.AllAtOnce"
 
@@ -130,6 +182,10 @@ resource "aws_codedeploy_deployment_group" "eagerewok" {
   # }
 }
 
+resource "aws_iam_instance_profile" "eagerewok_ec2" {
+  name = "eagerewok_ec2"
+  role = "${aws_iam_role.eagerewok_ec2.name}"
+}
 
 resource "aws_instance" "eagerewok" {
 	count = 1
@@ -139,21 +195,35 @@ resource "aws_instance" "eagerewok" {
 	vpc_security_group_ids = ["${aws_security_group.eagerewok.id}"]
 	subnet_id = "${aws_subnet.eagerewok.id}"
 	key_name = "${aws_key_pair.eagerewok.id}"
+   
+  iam_instance_profile = "${aws_iam_instance_profile.eagerewok_ec2.name}"
 
 	tags {
 		Name = "eagerewok_staging"
 	}
 
   provisioner "file" {
-    source      = "../scripts/terraform/ec2_init.sh"
+    source = "../scripts/terraform/ec2_init.sh"
     destination = "/tmp/ec2_init.sh"
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = "${file("${var.ec2_private_key}")}"
+    }
   }
 
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/ec2_init.sh",
-      "/tmp/ec2_init.sh",
+      "sudo /tmp/ec2_init.sh",
     ]
+
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = "${file("${var.ec2_private_key}")}"
+    }
   }
 }
 

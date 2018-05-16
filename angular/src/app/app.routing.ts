@@ -11,10 +11,13 @@ import { AuthGuard } from './_guards/index';
 import { ProfileComponent, IndexComponent } from './profile/index';
 
 const appRoutes: Routes = [
-    // { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+
     { path: 'home', component: OrganizationComponent, canActivate: [AuthGuard]},
+
     { path: 'login', component: LoginComponent },
+    { path: 'logout', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+
     { path: 'projects', component: ProjectComponent, canActivate: [AuthGuard]},
 
     { path: 'skill', component: SkillComponent, canActivate: [AuthGuard]},

@@ -38,7 +38,7 @@ export class IndexComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
     }
 
-    private applyFilter(filterValue: string) {
+    public applyFilter(filterValue: string) {
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
         this.dataSource.filter = filterValue;

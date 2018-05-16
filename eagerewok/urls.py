@@ -16,25 +16,28 @@ router.register(r'categories', CategoryViewSet)
 router.register(r'userskill', UserSkillViewSet)
 router.register(r'skillcategory', SkillCategoryViewSet)
 
+urlbase = 'api'
+
 urlpatterns = [
-	path('admin/', admin.site.urls),
-	path('api/', include(router.urls)),
+	path(f'{urlbase}/admin/', admin.site.urls),
+	path(f'{urlbase}/', include(router.urls)),
 
 	# retrieve token through post
-	path('api/auth/', views.obtain_auth_token),
+	path(f'{urlbase}/rest-auth/', views.obtain_auth_token),
 
 	# register via api
-    url(r'api/auth/register/', include('rest_auth.registration.urls')),
-	url(r'api/auth/', include('rest_auth.urls')),
+	# https://github.com/Tivix/django-rest-auth/blob/master/rest_auth/urls.py
+	url(fr'{urlbase}/rest-auth/', include('rest_auth.urls')),
+    url(fr'{urlbase}/rest-auth/register/', include('rest_auth.registration.urls')),
 	
-	# login page at api-auth/login
-	path('auth/', include('rest_framework.urls', namespace='rest_framework')),
-	
-	# url(r'^rest-auth/', include('rest_auth.urls')),
-    # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+	# login page at auth/login
+	# https://github.com/encode/django-rest-framework/blob/master/rest_framework/urls.py
+	path(f'{urlbase}/auth/', include('rest_framework.urls', namespace='rest_framework')),
 	
 	# the 'api-root' from django rest-frameworks default router
 	# http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
-	re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api'), permanent=False)),
+	re_path(r'^$', RedirectView.as_view(url=reverse_lazy(f'{urlbase}'), permanent=False)),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(
+		f'{urlbase}/{settings.MEDIA_URL}', 
+		document_root=f'{urlbase}/{settings.MEDIA_ROOT}')
